@@ -10,7 +10,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://uberjoker.github.io", "http://localhost:8000", "http://127.0.0.1:8000"],
     allow_credentials=False,
-    allow_methods=["GET", "OPTIONS"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "Accept"],
     max_age=3600,
 )
@@ -21,4 +21,8 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "healthy"} 
+    return {"status": "healthy"}
+
+@app.post("/log_meal/")
+def log_meal():
+    return {"message": "Meal logged successfully!", "id": 1} 
