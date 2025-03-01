@@ -19,6 +19,11 @@ print(f"PORT environment variable: {os.getenv('PORT')}")
 try:
     app = FastAPI(title="Nutrition Assistant API")
 
+    # Health check endpoint - define this first
+    @app.get("/health")
+    def health_check():
+        return {"status": "healthy"}
+
     # Configure CORS
     app.add_middleware(
         CORSMiddleware,
@@ -146,11 +151,6 @@ try:
         finally:
             cursor.close()
             conn.close()
-
-    # Health check endpoint
-    @app.get("/health")
-    def health_check():
-        return {"status": "healthy"}
 
     if __name__ == "__main__":
         import uvicorn

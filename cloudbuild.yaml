@@ -23,6 +23,16 @@ steps:
   - '--allow-unauthenticated'
   - '--set-env-vars'
   - 'DATABASE_URL=postgresql://postgres:post123!@34.68.199.158:5432/nutrition_db'
+  - '--cpu'
+  - '1'
+  - '--memory'
+  - '512Mi'
+  - '--timeout'
+  - '300'
+  - '--min-instances'
+  - '1'
+  - '--port'
+  - '8080'
 
 images:
 - 'gcr.io/$PROJECT_ID/nutrition-backend'
