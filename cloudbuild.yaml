@@ -23,6 +23,7 @@ steps:
   - '--allow-unauthenticated'
   - '--set-secrets'
   - 'DATABASE_URL=DATABASE_URL:latest'
+  secretEnv: ['DATABASE_URL']
 
 images:
 - 'gcr.io/$PROJECT_ID/nutrition-backend'
