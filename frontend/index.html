@@ -21,7 +21,7 @@
             color: #2c3e50;
             text-align: center;
         }
-        input {
+        input, textarea {
             width: 100%;
             padding: 8px;
             margin: 10px 0;
@@ -48,10 +48,7 @@
         }
     </style>
     <script>
-        // Get the API URL from environment or use default
-        const API_URL = window.location.hostname === 'localhost' 
-            ? 'http://localhost:8000' 
-            : 'https://your-backend-url.onrender.com'; // You'll need to update this
+        const API_URL = 'https://nutrition-backend-304087451100.us-central1.run.app';
 
         async function logMeal() {
             try {
@@ -59,29 +56,63 @@
                 const meal_description = document.getElementById("meal").value;
                 const blood_sugar = document.getElementById("blood_sugar").value;
                 const medication = document.getElementById("medication").value;
+                const calories = document.getElementById("calories").value;
+                const carbs = document.getElementById("carbs").value;
+                const protein = document.getElementById("protein").value;
+                const fat = document.getElementById("fat").value;
+                const notes = document.getElementById("notes").value;
 
-                if (!meal_description || !blood_sugar) {
-                    throw new Error("Please fill in all required fields");
+                if (!meal_description) {
+                    throw new Error("Please enter a meal description");
                 }
+
+                console.log("Sending request to:", `${API_URL}/log_meal/`);
+                const requestBody = { 
+                    timestamp, 
+                    meal_description, 
+                    blood_sugar: blood_sugar ? parseFloat(blood_sugar) : null,
+                    medication,
+                    calories: calories ? parseInt(calories) : null,
+                    carbs: carbs ? parseFloat(carbs) : null,
+                    protein: protein ? parseFloat(protein) : null,
+                    fat: fat ? parseFloat(fat) : null,
+                    notes
+                };
+                console.log("Request body:", requestBody);
 
                 const response = await fetch(`${API_URL}/log_meal/`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ timestamp, meal_description, blood_sugar, medication })
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    mode: "cors",
+                    credentials: "omit",
+                    body: JSON.stringify(requestBody)
                 });
 
+                console.log("Response status:", response.status);
+                const responseText = await response.text();
+                console.log("Response text:", responseText);
+
                 if (!response.ok) {
-                    throw new Error("Failed to log meal");
+                    throw new Error(`Failed to log meal: ${response.status} ${responseText}`);
                 }
 
-                const result = await response.json();
+                const result = JSON.parse(responseText);
                 alert(result.message);
                 
                 // Clear form
                 document.getElementById("meal").value = "";
                 document.getElementById("blood_sugar").value = "";
                 document.getElementById("medication").value = "";
+                document.getElementById("calories").value = "";
+                document.getElementById("carbs").value = "";
+                document.getElementById("protein").value = "";
+                document.getElementById("fat").value = "";
+                document.getElementById("notes").value = "";
             } catch (error) {
+                console.error("Error:", error);
                 document.getElementById("error").textContent = error.message;
             }
         }
@@ -91,8 +122,13 @@
     <div class="container">
         <h1>Log Your Meal</h1>
         <input type="text" id="meal" placeholder="Enter your meal (required)" required>
-        <input type="number" step="0.1" id="blood_sugar" placeholder="Blood Sugar Level (required)" required>
-        <input type="text" id="medication" placeholder="Medication (if any)">
+        <input type="number" step="0.1" id="blood_sugar" placeholder="Blood Sugar Level (optional)">
+        <input type="text" id="medication" placeholder="Medication (optional)">
+        <input type="number" id="calories" placeholder="Calories (optional)">
+        <input type="number" step="0.1" id="carbs" placeholder="Carbohydrates in grams (optional)">
+        <input type="number" step="0.1" id="protein" placeholder="Protein in grams (optional)">
+        <input type="number" step="0.1" id="fat" placeholder="Fat in grams (optional)">
+        <textarea id="notes" placeholder="Additional notes (optional)" style="width: 100%; margin: 10px 0; padding: 8px;"></textarea>
         <button onclick="logMeal()">Submit</button>
         <div id="error" class="error"></div>
     </div>
