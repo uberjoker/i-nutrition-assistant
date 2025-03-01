@@ -23,8 +23,6 @@ steps:
   - '--allow-unauthenticated'
   - '--set-secrets'
   - 'DATABASE_URL=DATABASE_URL:latest'
-  - '--port'
-  - '8080'
 
 images:
 - 'gcr.io/$PROJECT_ID/nutrition-backend'
