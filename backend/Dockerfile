@@ -1,6 +1,9 @@
 # Use Python 3.9 slim image
 FROM python:3.9-slim
 
+# Install debugging tools
+RUN apt-get update && apt-get install -y procps curl && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /app
 
@@ -23,4 +26,4 @@ ENV PORT=8080
 EXPOSE 8080
 
 # Run the application with startup script
-CMD ["./start.sh"] 
+CMD /bin/bash ./start.sh 

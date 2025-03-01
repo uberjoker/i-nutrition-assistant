@@ -1,6 +1,17 @@
 #!/bin/bash
-echo "Starting application..."
-echo "PORT: $PORT"
-echo "DATABASE_URL: ${DATABASE_URL:0:20}..." # Only show first 20 chars for security
+set -e  # Exit on error
 
-uvicorn main:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 75 
+echo "Starting application..."
+echo "Current directory: $(pwd)"
+echo "Files in current directory:"
+ls -la
+
+echo "Environment variables:"
+echo "PORT: $PORT"
+echo "DATABASE_URL exists: $(if [ -n "$DATABASE_URL" ]; then echo "yes"; else echo "no"; fi)"
+
+echo "Python version:"
+python --version
+
+echo "Starting uvicorn..."
+exec uvicorn main:app --host 0.0.0.0 --port $PORT --log-level debug 
