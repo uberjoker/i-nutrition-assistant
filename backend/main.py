@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+print("Starting FastAPI application...")
+print(f"PORT environment variable: {os.getenv('PORT')}")
+
 app = FastAPI(title="Nutrition Assistant API")
 
 # Configure CORS
@@ -23,6 +26,8 @@ app.add_middleware(
 # Database connection
 DATABASE_URL = os.getenv("DATABASE_URL")
 PORT = int(os.getenv("PORT", "8080"))
+
+print(f"Configured to listen on port {PORT}")
 
 def get_db_connection():
     try:
