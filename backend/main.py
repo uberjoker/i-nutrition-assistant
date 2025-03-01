@@ -79,6 +79,13 @@ def log_meal(data: MealLog):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
+        # Debug logging
+        print(f"Received data: {data}")
+        print(f"Calories type: {type(data.calories)}, value: {data.calories}")
+        print(f"Carbs type: {type(data.carbs)}, value: {data.carbs}")
+        print(f"Protein type: {type(data.protein)}, value: {data.protein}")
+        print(f"Fat type: {type(data.fat)}, value: {data.fat}")
+        
         cursor.execute("""
             INSERT INTO meal_logs 
             (timestamp, meal_description, blood_sugar, medication, calories, carbs, protein, fat, notes)
@@ -101,7 +108,7 @@ def log_meal(data: MealLog):
     except Exception as e:
         conn.rollback()
         print(f"Error logging meal: {e}")
-        raise HTTPException(status_code=500, detail="Error logging meal")
+        raise HTTPException(status_code=500, detail=f"Error logging meal: {str(e)}")
     finally:
         cursor.close()
         conn.close()
