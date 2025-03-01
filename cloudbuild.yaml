@@ -21,8 +21,8 @@ steps:
   - '--platform'
   - 'managed'
   - '--allow-unauthenticated'
-  - '--update-secrets'
-  - 'DATABASE_URL=DATABASE_URL:latest'
+  - '--set-env-vars'
+  - 'DATABASE_URL=postgresql://postgres:post123!@34.68.199.158:5432/nutrition_db'
 
 images:
 - 'gcr.io/$PROJECT_ID/nutrition-backend'
