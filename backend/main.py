@@ -22,6 +22,7 @@ app.add_middleware(
 
 # Database connection
 DATABASE_URL = os.getenv("DATABASE_URL")
+PORT = int(os.getenv("PORT", "8080"))
 
 def get_db_connection():
     try:
@@ -137,3 +138,7 @@ def get_meals():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
