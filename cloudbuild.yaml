@@ -21,6 +21,10 @@ steps:
   - '--platform'
   - 'managed'
   - '--allow-unauthenticated'
+  - '--memory'
+  - '256Mi'
+  - '--cpu'
+  - '1'
   - '--set-env-vars'
   - 'DATABASE_URL=postgresql://postgres:post123!@34.68.199.158:5432/nutrition_db'
 

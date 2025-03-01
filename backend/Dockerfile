@@ -16,5 +16,5 @@ COPY . .
 # Set environment variables
 ENV PORT=8080
 
-# Run the application
-CMD uvicorn main:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 75 --log-level debug 
+# Run the minimal test application
+CMD uvicorn test_app:app --host 0.0.0.0 --port $PORT 
