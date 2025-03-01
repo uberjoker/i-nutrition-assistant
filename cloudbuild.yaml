@@ -23,4 +23,7 @@ steps:
   - '--allow-unauthenticated'
 
 images:
-- 'gcr.io/$PROJECT_ID/nutrition-backend' 
+- 'gcr.io/$PROJECT_ID/nutrition-backend'
+
+options:
+  logging: CLOUD_LOGGING_ONLY 
