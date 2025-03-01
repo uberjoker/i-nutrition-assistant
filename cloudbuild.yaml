@@ -1,5 +1,5 @@
 steps:
-# Build the container image and deploy to Cloud Run
+# Build the container image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/nutrition-backend', './backend']
 
@@ -7,7 +7,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/nutrition-backend']
 
-# Deploy container image to Cloud Run with database secret
+# Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
@@ -23,16 +23,6 @@ steps:
   - '--allow-unauthenticated'
   - '--set-env-vars'
   - 'DATABASE_URL=postgresql://postgres:post123!@34.68.199.158:5432/nutrition_db'
-  - '--cpu'
-  - '1'
-  - '--memory'
-  - '512Mi'
-  - '--timeout'
-  - '300'
-  - '--min-instances'
-  - '1'
-  - '--port'
-  - '8080'
 
 images:
 - 'gcr.io/$PROJECT_ID/nutrition-backend'
